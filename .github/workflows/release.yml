@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - v[0-9]+.*
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: taiki-e/create-gh-release-action@v1
+        with:
+          changelog: CHANGELOG.MD
+          branch: main
+          draft: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  build:
+    name: Build and upload artifacts
+    strategy:
+      matrix:
+        include:
+          - target: x86_64-linux
+            os: ubuntu-latest
+          - target: x86_64-macos
+            os: macos-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1.3
+      - name: Install dependencies
+        run: dart pub get
+      - name: Run tests
+        run: dart test
+      - name: Build executable
+        run: dart compile exe bin/apps_bouncer.dart -o ./apps_bouncer
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apps_bouncer-${{ matrix.target }}
+          path: ./apps_bouncer

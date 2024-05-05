@@ -1,0 +1,17 @@
+name: Build
+
+on: [ push ]
+
+jobs:
+  build-mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dart-lang/setup-dart@v1.3
+      - name: Install dependencies
+        run: dart pub get
+      - name: Run tests
+        run: dart test
+      - name: Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()

@@ -32,7 +32,6 @@ Future<void> _macosUserNotify(ProcessData proc) async {
   
   if button returned of dialogResult is "Yes" then
     do shell script "kill ${proc.pid}"  
-    display dialog "Yay"
   end if
   
   end
