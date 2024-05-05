@@ -1,8 +1,9 @@
 import 'src/bouncer.dart';
 
+export 'src/bouncer.dart';
+export 'src/notifier.dart';
+export 'src/process_data.dart';
+
 Future<void> run() async {
-  while (true) {
-    await runBouncer();
-    await Future.delayed(Duration(seconds: 2));
-  }
+  await runBouncer(period: Duration(seconds: 2));
 }

@@ -5,10 +5,10 @@ class ProcessData {
       RegExp(r'\s*(\d+)\s+(\d+(\.\d+)?)\s+(\d+(\.\d+)?)\s+(.+)');
   final int pid;
   final String command;
-  double memoryUsage;
-  double cpuUsage;
+  final double memoryUsage;
+  final double cpuUsage;
 
-  ProcessData({
+  const ProcessData({
     required this.pid,
     required this.command,
     required this.memoryUsage,
