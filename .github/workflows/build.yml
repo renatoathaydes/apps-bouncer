@@ -5,6 +5,10 @@ on: [ push ]
 jobs:
   build-mac:
     runs-on: macos-latest
+    permissions:
+      contents: read
+      actions: read
+      checks: write
     steps:
       - uses: actions/checkout@v3
       - uses: dart-lang/setup-dart@v1.3

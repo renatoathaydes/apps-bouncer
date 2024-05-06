@@ -19,11 +19,13 @@ Future<void> _macosUserNotify(ProcessData proc) async {
     '-e',
     '''
   set userCanceled to false
+  set dialogResult to "No"
 
   try
     set dialogResult to display dialog ¬
       "Kill process '${proc.command}'?" buttons {"No", "Yes"} ¬
       with icon caution ¬
+      with title "Apps Bouncer" ¬
       default button "Yes" cancel button ¬
       "No" giving up after 60
   on error number -128
