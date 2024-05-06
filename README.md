@@ -42,7 +42,7 @@ postNotificationPeriodMinutes: 30
 # Log level (log is sent to stdout).
 # Can be one of 'finer', 'fine', 'info', 'warning', 'error'.
 # The default is 'info'.
-logLevel': warning
+logLevel: warning
 ```
 
 ## Building

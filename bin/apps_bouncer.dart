@@ -14,7 +14,7 @@ main(List<String> args) async {
   });
   final config = await loadConfig(args.isEmpty ? null : args.first);
   Logger.root.level = _logLevel(config.logLevel);
-  await apps_bouncer.run(config);
+  await apps_bouncer.run(config, Logger('Bouncer'));
 }
 
 Level _logLevel(apps_bouncer.LogLevel logLevel) => switch (logLevel) {

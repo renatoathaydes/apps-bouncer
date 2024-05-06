@@ -1,0 +1,21 @@
+# Period in seconds for sampling the OS processes (min: 1, max: 360, default: 2)
+periodSeconds: 3
+
+# Maximum samples a process may misbehave (i.e. be over the limits)
+# (min: 1, max: 100, default: 4)
+misbehavingChances: 3
+
+# CPU % threshold (min: 1, max: 100, default: 50)
+cpuThreshold: 75
+
+# Memory % threshold (min: 1, max: 100, default: 25)
+memoryThreshold: 50
+
+# Post notification period in minutes (min: 1, max: 30 * 24 * 60, default: 60).
+# During this period, the user won't be notified again about misbehaving processes.
+postNotificationPeriodMinutes: 30
+
+# Log level (log is sent to stdout).
+# Can be one of 'finer', 'fine', 'info', 'warning', 'error'.
+# The default is 'info'.
+logLevel: finer

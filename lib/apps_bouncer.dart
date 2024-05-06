@@ -1,3 +1,5 @@
+import 'package:logging/logging.dart';
+
 import 'src/bouncer.dart';
 import 'src/config.g.dart';
 
@@ -11,6 +13,8 @@ export 'src/process_data.dart';
 /// Provide a configuration object if you want to use non-defaults.
 ///
 /// Use the [runBouncer] function for more flexibility..
-Future<void> run([BouncerConfig config = const BouncerConfig()]) async {
-  await runBouncer(config: config);
+Future<void> run(
+    [BouncerConfig config = const BouncerConfig(), Logger? logger]) async {
+  logger?.fine(() => 'Running Bouncer with: $config');
+  await runBouncer(config: config, logger: logger);
 }
