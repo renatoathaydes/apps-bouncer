@@ -11,6 +11,19 @@ Imagine your Operating System is a pub where the processes it's running are the 
 When they misbehave, they're brought to the manager (the user) who can decide whether to kill them.
 It's ok because killing processes is totally legal ;).
 
+## Supported Platforms
+
+Only MacOS if fully supported right now.
+
+The Mac OS notifier is a popup window that looks like this:
+
+![MacOS Notifier](resources/notifier-macos.png)
+
+On other Unixes, like Linux, the code should work, but the only notifier implementation is to print to the terminal.
+
+On Windows and other OS's, a replacement for `ps` would be required, and a parser for the command output would be
+also needed if it doesn't look like the `ps` output.
+
 ## Configuration
 
 To configure the bouncer, provide a configuration file at one of these locations:
