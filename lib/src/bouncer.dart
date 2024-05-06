@@ -4,27 +4,29 @@ import 'dart:io';
 
 import 'package:logging/logging.dart';
 
+import 'config.g.dart';
 import 'notifier.dart';
 import 'process_data.dart';
 
 Future<void> runBouncer({
-  Duration period = const Duration(seconds: 5),
-  int misbehavingChances = 4,
-  double cpuThreshold = 20.0,
-  double memoryThreshold = 40.0,
-  Duration postNotificationPeriod = const Duration(hours: 1),
+  BouncerConfig config = const BouncerConfig(),
   Logger? logger,
   Stream<ProcessData> Function() collector = collectProcessData,
   Future<void> Function(ProcessData) notify = userNotify,
   Future<bool> Function() keepRunning = _onlyTrue,
   DateTime Function() currentTime = _now,
 }) async {
+  final period = Duration(seconds: config.periodSeconds);
+  final postNotificationPeriod =
+      Duration(minutes: config.postNotificationPeriodMinutes);
+
   final notifiedPids = <int, DateTime>{};
 
   final state = <int, List<ProcessData>>{};
   while (await keepRunning()) {
     final procData = await collector()
-        .where((data) => data.isOverThreshold(cpuThreshold, memoryThreshold))
+        .where((data) =>
+            data.isOverThreshold(config.cpuThreshold, config.memoryThreshold))
         .toList();
     state.removeOneEntryIfAbsentIn(procData, logger);
     logger?.finer(() => 'Current state: $state');
@@ -35,7 +37,7 @@ Future<void> runBouncer({
         return current;
       }, ifAbsent: () => [proc]);
       logger?.finer(() => 'Current entries: $entries');
-      if (entries.length > misbehavingChances) {
+      if (entries.length > config.misbehavingChances) {
         state.remove(proc.pid);
         final expiresAt = currentTime().add(postNotificationPeriod);
         notifiedPids[proc.pid] = expiresAt;

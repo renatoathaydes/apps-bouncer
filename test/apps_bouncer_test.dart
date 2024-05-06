@@ -51,9 +51,8 @@ void main() {
       ]);
       final notifications = <ProcessData>[];
       await runBouncer(
-          period: Duration.zero,
-          misbehavingChances: 1,
-          cpuThreshold: 0.5,
+          config: BouncerConfig(
+              periodSeconds: 0, misbehavingChances: 1, cpuThreshold: 0.5),
           collector: collector,
           keepRunning: _runtimes(2),
           notify: _mockNotifier(notifications));
@@ -74,9 +73,8 @@ void main() {
       ]);
       final notifications = <ProcessData>[];
       await runBouncer(
-          period: Duration.zero,
-          misbehavingChances: 2,
-          cpuThreshold: 0.5,
+          config: BouncerConfig(
+              periodSeconds: 0, misbehavingChances: 2, cpuThreshold: 0.5),
           collector: collector,
           keepRunning: _runtimes(5),
           notify: _mockNotifier(notifications));
@@ -95,9 +93,8 @@ void main() {
       ]);
       final notifications = <ProcessData>[];
       await runBouncer(
-          period: Duration.zero,
-          misbehavingChances: 2,
-          memoryThreshold: 1.0,
+          config: BouncerConfig(
+              periodSeconds: 0, misbehavingChances: 2, memoryThreshold: 1.0),
           collector: collector,
           keepRunning: _runtimes(5),
           notify: _mockNotifier(notifications),

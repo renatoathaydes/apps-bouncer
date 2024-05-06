@@ -2,5 +2,10 @@
 # Created by `dart pub`
 .dart_tool/
 
+# Dartle
+.dartle_tool/
+build/
+
+# IDEA
 .idea/
 *.iml
