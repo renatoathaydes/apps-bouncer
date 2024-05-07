@@ -5,18 +5,10 @@ on:
     tags:
       - v[0-9]+.*
 
-jobs:
-  create-release:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: taiki-e/create-gh-release-action@v1
-        with:
-          changelog: CHANGELOG.md
-          branch: main
-          draft: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+permissions:
+  contents: write
 
+jobs:
   build:
     name: Build and upload artifacts
     strategy:
@@ -36,7 +28,30 @@ jobs:
         run: dart test
       - name: Build executable
         run: dart compile exe bin/apps_bouncer.dart -o ./apps_bouncer
-      - uses: actions/upload-artifact@v4
+      - name: Package artifact
+        run: tar czf apps_bouncer-${{ matrix.target }}.tar.gz ./apps_bouncer ./README.md
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
         with:
           name: apps_bouncer-${{ matrix.target }}
-          path: ./apps_bouncer
+          path: apps_bouncer-${{ matrix.target }}.tar.gz
+
+  release:
+    needs: build
+    name: Github Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v4
+        with:
+          name: apps_bouncer-x86_64-linux
+          path: release
+      - uses: actions/download-artifact@v4
+        with:
+          name: apps_bouncer-x86_64-macos
+          path: release
+      - uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          body_path: CHANGELOG.md
+          files: release/*
