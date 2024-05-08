@@ -2,8 +2,8 @@ name: apps_bouncer
 description: |
   Application that keeps track of running processes,
   snitching bad-behaving ones to the user, who can choose to kill them.
-version: 1.0.0
-repository: https://github.com/renatoathaydes/apps_bouncer
+version: 1.0.1
+repository: https://github.com/renatoathaydes/apps-bouncer
 
 environment:
   sdk: ^3.3.2

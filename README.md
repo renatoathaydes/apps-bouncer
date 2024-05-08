@@ -24,6 +24,18 @@ On other Unixes, like Linux, the code should work, but the only notifier impleme
 On Windows and other OS's, a replacement for `ps` would be required, and a parser for the command output would be
 also needed if it doesn't look like the `ps` output.
 
+## Download
+
+You can download pre-built executables from the [Github Releases](https://github.com/renatoathaydes/apps-bouncer/releases) page.
+
+If you are a Dart user, just run:
+
+```shell
+dart pub global activate apps_bouncer
+```
+
+To build yourself, see the `Building` section later in this document.
+
 ## Configuration
 
 To configure the bouncer, provide a configuration file at one of these locations:
