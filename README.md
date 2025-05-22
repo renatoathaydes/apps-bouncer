@@ -68,6 +68,11 @@ postNotificationPeriodMinutes: 30
 # Can be one of 'finer', 'fine', 'info', 'warning', 'error'.
 # The default is 'info'.
 logLevel: warning
+
+# The names of the processes to exclude (default: []).
+# Some processes are inherently CPU-intensive and may run for a long time.
+# To avoid getting notified about them, add their names to this list.
+excludedProcesses: [idea]
 ```
 
 ## Building

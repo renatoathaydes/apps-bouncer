@@ -1,4 +1,5 @@
 import 'package:apps_bouncer/apps_bouncer.dart';
+import 'package:schemake/schemake.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
@@ -16,6 +17,19 @@ void main() {
             periodSeconds: 5,
             logLevel: LogLevel.error,
           )));
+    });
+
+    test('cannot provide empty strings for excludedProcesses', () {
+      expect(() {
+        BouncerConfig.fromJson({
+          'excludedProcesses': ['', 'foo']
+        });
+      },
+          throwsA(isA<PropertyValidationException>()
+              .having((err) => err.errors, 'error messages',
+                  equals(['blank string']))
+              .having((err) => err.propertyPath, 'path',
+                  equals(['excludedProcesses']))));
     });
   });
 }

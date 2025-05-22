@@ -18,6 +18,8 @@ Property<double> _floatRange(
     Property(Validatable(Floats(), FloatRangeValidator(min, max)),
         defaultValue: defaultValue);
 
+const _nonBlankString = Validatable(Strings(), NonBlankStringValidator());
+
 /// The BouncerConfig Schema.
 final bouncerConfigSchema = Objects('BouncerConfig', {
   'periodSeconds': _intRange(min: 1, max: 360, defaultValue: 2),
@@ -30,6 +32,9 @@ final bouncerConfigSchema = Objects('BouncerConfig', {
       Enums(EnumValidator(
           'LogLevel', {'finer', 'fine', 'info', 'warning', 'error'})),
       defaultValue: 'info'),
+  'excludedProcesses': const Property(Arrays(_nonBlankString),
+      defaultValue: [],
+      description: 'Process names that will never trigger notifications.'),
 });
 
 final generateConfigTask = Task(
