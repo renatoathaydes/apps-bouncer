@@ -21,6 +21,7 @@ Future<void> runBouncer({
       Duration(minutes: config.postNotificationPeriodMinutes);
 
   final notifiedPids = <int, DateTime>{};
+  final excludedProcs = config.excludedProcesses.toSet();
 
   final state = <int, List<ProcessData>>{};
   while (await keepRunning()) {
@@ -42,12 +43,18 @@ Future<void> runBouncer({
         final expiresAt = currentTime().add(postNotificationPeriod);
         notifiedPids[proc.pid] = expiresAt;
         final avgEntry = entries.average();
-        logger?.info(() =>
-            'Notifying user (notification expires at $expiresAt): $avgEntry');
-        try {
-          await notify(avgEntry);
-        } catch (e) {
-          logger?.warning('Notifier failed', e);
+        if (excludedProcs.contains(proc.command)) {
+          logger?.fine(() =>
+              'Misbehaving process, will NOT notify user as it is excluded '
+              '(notification expires at $expiresAt): $avgEntry');
+        } else {
+          logger?.info(() =>
+              'Notifying user (notification expires at $expiresAt): $avgEntry');
+          try {
+            await notify(avgEntry);
+          } catch (e) {
+            logger?.warning('Notifier failed', e);
+          }
         }
       }
     }
